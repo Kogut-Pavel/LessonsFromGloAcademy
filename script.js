@@ -13,27 +13,28 @@ let period = 6;
 
 // console.log(addExpenses.length);
 
-// console.log('Период равен ' + period + ' месяцев');
-// console.log ('Цель заработать ' + mission + ' рублей');
+console.log('Период равен ' + period + ' месяцев');
+console.log ('Цель заработать ' + mission + ' рублей');
 
-// console.log(addExpenses.toLowerCase);
-// console.log(addExpenses.split(' '));
-
+console.log(addExpenses.toLowerCase);
+console.log(addExpenses.split(' '));
 
 let expenses1 = prompt('Введите обязательную статью расходов?');
+
 let amount1 = +prompt('Во сколько это обойдётся?');
 
 let expenses2 = prompt('Введите обязательную статью расходов?');
+
 let amount2 = +prompt('Во сколько это обойдётся?');
 
 let budgetMonth = money - (amount1 + amount2);
-console.log(budgetMonth);
+console.log('Бюджет на месяц: ' + budgetMonth);
 
 let monthes = Math.ceil(mission / budgetMonth);
-console.log(monthes);
+console.log('Цуель будет достигнута за ' + monthes + ' месяцев(-а)');
 
 let budgetDay = Math.floor(budgetMonth / 30);
-console.log(budgetDay);
+console.log('Бюджет на день: ' + budgetDay);
 
 if (budgetDay >= 1200) {
   console.log('У вас высокий уровень дохода');
