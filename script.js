@@ -3,15 +3,17 @@
 let money = +prompt('Ваш месячный доход?');
 let income = 'Фриланс';
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-const deposit = prompt('Есть ли у вас депозит в банке?');
+const deposit = alert('Есть ли у вас депозит в банке?');
 let mission = 100000;
 let period = 6;
 
-// console.log(typeof money);
-// console.log(typeof income);
-// console.log(typeof deposit);
+let showTypeOf = function(data) {
+  console.log(data, typeof(data));
+};
 
-// console.log(addExpenses.length);
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
 
 console.log('Период равен ' + period + ' месяцев');
 console.log ('Цель заработать ' + mission + ' рублей');
@@ -27,21 +29,49 @@ let expenses2 = prompt('Введите обязательную статью р�
 
 let amount2 = +prompt('Во сколько это обойдётся?');
 
-let budgetMonth = money - (amount1 + amount2);
-console.log('Бюджет на месяц: ' + budgetMonth);
+// Возвращает сумму всех обязательных расходов за месяц
+const getExpensesMonth = function () { 
+  if (!amount1) {
+    amount1 = 0;
+  }
+  if (!amount2) {
+    amount2 = 0;
+  }
+  return amount1 + amount2;
+};
 
-let monthes = Math.ceil(mission / budgetMonth);
-console.log('Цуель будет достигнута за ' + monthes + ' месяцев(-а)');
+console.log(getExpensesMonth());
 
-let budgetDay = Math.floor(budgetMonth / 30);
-console.log('Бюджет на день: ' + budgetDay);
+// Возвращает накопления за месяц (доходы минус расходы)
+const getAccumulatedMonth = function () {
+  return money - (amount1 + amount2);
+};
 
-if (budgetDay >= 1200) {
-  console.log('У вас высокий уровень дохода');
-} else if (budgetDay >= 600 && budgetDay < 1200) {
-  console.log('У вас средний уровень дохода');
-} else if (budgetDay < 600 && budgetDay >= 0) {
-  console.log ('К сожалению у вас уровень дохода ниже среднего');
-} else {
-  console.log('Что-то пошло не так');
-}
+getAccumulatedMonth();
+
+const accumulatedMonth = getAccumulatedMonth();
+
+// Подсчитывает за какой период будет достигнута цель и возвращает результат
+const getTargetMonth = function () {
+  let monthes = Math.ceil(mission / accumulatedMonth);
+  return 'Цель будет достигнута за ' + monthes + ' месяцев(-а)';
+};
+
+console.log(getTargetMonth());
+
+let budgetDay = Math.floor(accumulatedMonth / 30);
+console.log(budgetDay);
+
+const getStatusIncome = function () {
+  if (budgetDay >= 1200) {
+    return ('У вас высокий уровень дохода');
+  } else if (budgetDay >= 600 && budgetDay < 1200) {
+    return ('У вас средний уровень дохода');
+  } else if (budgetDay < 600 && budgetDay >= 0) {
+    return ('К сожалению у вас уровень дохода ниже среднего');
+  } else {
+    return ('Что-то пошло не так');
+  }
+};
+
+console.log(getStatusIncome());
