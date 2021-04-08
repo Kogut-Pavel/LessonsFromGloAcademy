@@ -23,6 +23,11 @@ for (let i = 2; i <= n; i++) {
   console.log(`${i}: Простое число. Делители этого числа: 1 и `, j);
 }
 
+// for (let i = 0; i <= arr.length; i++) {
+//   if (arr[i].startsWith('2') || arr[i].startsWith('4')) {
+//     console.log(arr[i]);
+//   }
+// }
 
 
 
