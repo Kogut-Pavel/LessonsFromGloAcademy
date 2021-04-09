@@ -12,7 +12,6 @@ function start() {
   let randomNumber = getRandomInt(100);
   let numberAttempts = 10;
   function game() {
-    numberAttempts--;
     if (numberAttempts < 1) {
       if (confirm('Попытки закончились, хотите сыграть ещё?')) {
         start();
@@ -27,11 +26,12 @@ function start() {
           return;
       } 
       if (isNumber(num)) {
+        numberAttempts--;
         if (num > randomNumber) {
           alert(`Загаданное число меньше, осталось попыток: ${numberAttempts}`);
           game();
         } else if (num < randomNumber) {
-            alert (`Загаданное число больше, осталось попыток: ${numberAttempts}`);
+            alert (`Загаданное число больше, осталось попыток: ${numberAttempts}`);  
             game();
         } else {
             if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть ещё?')) {
@@ -43,7 +43,7 @@ function start() {
         } 
       } else {
           alert('Введите число');
-          game();
+          game();         
       }
     }
   }
