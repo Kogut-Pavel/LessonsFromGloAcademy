@@ -39,15 +39,6 @@ let appData = {
             return +sum;
           })();
         }
-    // for (let i = 0; i < 2; i++) {
-    //   appData.expenses = [prompt('Введите обязательную статью расходов?')];
-    //     let sum = 0;      
-    //     do {
-    //         sum = +prompt('Во сколько это обойдется?');
-    //       } 
-    //       while(!isNumber(sum));
-    //       return sum; 
-    //   }
   },
   getExpensesMonth: function() { // Возвращает сумму обязательных расходов за месяц
     appData.expensesMonth = 0;
@@ -89,7 +80,7 @@ const targetMonth = appData.getTargetMonth();
 console.log('Обязательные расходы за месяц: ', appData.expensesMonth);
 console.log(targetMonth);
 console.log('Уровень дохода: ', appData.getStatusIncome());
-// console.log('Наша программа включает в себя данные: ');
-// for (let elem in appData) {
-//     console.log(elem, appData[elem]);
-// }
+console.log('Наша программа включает в себя данные: ');
+for (let elem in appData) {
+    console.log(elem, appData[elem]);
+}
