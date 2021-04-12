@@ -9,10 +9,6 @@ const isString = function(str, comma = false) {
   return pattern.test(str);
 };
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 let money;
 let start = function () {
   do {
