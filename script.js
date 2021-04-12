@@ -52,10 +52,10 @@ let appData = {
   addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
     } while (isNumber(addExpenses) || addExpenses === '');
     appData.addExpenses = addExpenses.split(',');   
-    let str;
+    let str = '';
     for (let letter of appData.addExpenses) {
       letter = letter.trim();
-      letter = letter[0].toUpperCase() + letter.slice(1);
+      letter = letter[0].toUpperCase() + letter.slice(1) + ' ';
       str += letter;
     }
     console.log(str);
