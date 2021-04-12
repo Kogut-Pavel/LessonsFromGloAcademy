@@ -47,13 +47,19 @@ let appData = {
       while (!isNumber(cashIncome) || cashIncome === '' || cashIncome === null);
       appData.income[itemIncome] = cashIncome;
     }
-    let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-    appData.addExpenses = addExpenses.toLowerCase().split(',');
+    let addExpenses;
+    do {
+  addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+    } while (isNumber(addExpenses) || addExpenses === '');
+    appData.addExpenses = addExpenses.split(',');   
+    let str;
     for (let letter of appData.addExpenses) {
       letter = letter.trim();
       letter = letter[0].toUpperCase() + letter.slice(1);
-      console.log(letter);
+      str += letter;
     }
+    console.log(str);
+    
       appData.deposit = confirm('Есть ли у вас депозит в банке?');
       for (let i = 0; i < 2; i++) {
         let itemExpenses;
