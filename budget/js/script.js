@@ -19,14 +19,18 @@
 
 // start();
 
-let result = document.getElementById('#start');
-let incomeAdd = document.getElementsByTagName('button');
+let result = document.getElementById('start');
+console.log(result);
+let incomeAdd = document.getElementsByTagName('button')[0];
+console.log(incomeAdd);
 let expensesAdd = document.getElementsByTagName('button')[1];
 let depositCheck = document.querySelector('#deposit-check');
 let additionalIncomeItems = document.querySelectorAll('.additional_income-item');
 let resultsTotal = document.querySelectorAll('.result-total');
 
-// inputs
+let values = document.querySelectorAll('[class*="-value"]');
+console.log(values);
+
 let salaryAmount = document.querySelector('.salary-amount');
 let incomeTitle = document.querySelector('.income-title');
 let incomeAmount = document.querySelector('.income-amount');
@@ -39,7 +43,7 @@ let depositPercent = document.querySelector('.deposit-percent');
 let targetAmount = document.querySelector('.target-amount');
 
 let periodSelect = document.querySelector('.period-select'); // range
-
+console.log(periodSelect);
 
 // let appData = {
 //   income: {},
