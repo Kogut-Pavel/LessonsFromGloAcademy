@@ -49,7 +49,7 @@ let appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   start: function() {
-    this.budget = salaryAmount.value;
+    
 
     this.getExpenses();
     this.getIncome();
@@ -113,9 +113,9 @@ let appData = {
     }
   },
   getExpenses: function() {  
-    expensesItems.forEach(function (item) {
-      let itemExpenses = item.querySelector('.expenses-title').value;
-      let cashExpenses = item.querySelector('.expenses-amount').value;
+    expensesItems.forEach(item => {
+      const itemExpenses = item.querySelector('.expenses-title').value;
+      const cashExpenses = item.querySelector('.expenses-amount').value;
       if (itemExpenses !== '' && cashExpenses !== '') {
         this.expenses[itemExpenses] = cashExpenses;
       }
@@ -132,17 +132,19 @@ let appData = {
     }
   },
   getIncome: function() {
-    incomeItems.forEach(function (item) {
-      let itemIncome = item.querySelector('.income-title').value;
-      let cashIncome = item.querySelector('.income-amount').value;
+    this.incomeMonth = 0;
+    incomeItems.forEach(item => {
+      const itemIncome = item.querySelector('.income-title').value;
+      const cashIncome = item.querySelector('.income-amount').value;
       if (itemIncome !== '' && cashIncome !== '') {
         this.income[itemIncome] = +cashIncome;
+        this.incomeMonth += +cashIncome;
       }
     });
   },
   getAddExpenses: function() {
     let addExpenses = additionalExpensesItem.value.split(',');
-    addExpenses.forEach(function (item) {  
+    addExpenses.forEach(item => {  
       item = item.trim();
       if (item !== '') {
         this.addExpenses.push(item);
@@ -150,7 +152,7 @@ let appData = {
     });
   },
   getAddIncome: function() {
-    additionalIncomeItem.forEach(function (item) {
+    additionalIncomeItem.forEach(item => {
       let itemValue = item.value.trim();
       if (itemValue !== '') {
         this.addIncome.push(itemValue);
@@ -167,6 +169,7 @@ let appData = {
     }
   },
   getBudget: function() { // Возвращает накопления за месяц (доходы минус расходы)
+    this.budget = +salaryAmount.value;
     this.budgetMonth = +this.budget + this.incomeMonth - this.expensesMonth;
     this.budgetDay = Math.floor(this.budgetMonth / 30);
   },
@@ -212,11 +215,3 @@ expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.changePeriodSelect);
 salaryAmount.addEventListener('input', appData.blockStart);
-
-// console.log('Обязательные расходы за месяц: ', appData.expensesMonth);
-// console.log(targetMonth);
-// console.log('Уровень дохода: ', appData.getStatusIncome());
-// console.log('Наша программа включает в себя данные: ');
-// for (let elem in appData) {
-//     console.log(elem, appData[elem]);
-// } 
