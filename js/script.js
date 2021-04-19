@@ -49,26 +49,26 @@ let appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   start: function() {
-    appData.budget = salaryAmount.value;
+    this.budget = salaryAmount.value;
 
-    appData.getExpenses();
-    appData.getIncome();
-    appData.getExpensesMonth();   
-    appData.getAddExpenses();
-    appData.getAddIncome();
-    appData.getBudget();
-    appData.showResult();
+    this.getExpenses();
+    this.getIncome();
+    this.getExpensesMonth();   
+    this.getAddExpenses();
+    this.getAddIncome();
+    this.getBudget();
+    this.showResult();
 
     periodSelect.addEventListener('input', () => {
-      incomePeriodValue.value = appData.calcPeriod();
+      incomePeriodValue.value = this.calcPeriod();
   });
 
   if (start.textContent === 'Рассчитать') {
-    appData.blockInputs();
+    this.blockInputs();
     start.textContent = 'Сбросить';
   } else {
     start.textContent = 'Рассчитать';
-    appData.reset();
+    this.reset();
   }
    
   },
@@ -89,7 +89,7 @@ let appData = {
     this.blockInputs(false);
     document.querySelectorAll('input[type=text]').forEach(item => {
       item.value = '';
-    });    
+    });
     periodSelect.value = document.querySelector('.period-amount').textContent = 1;
     this.blockStart();
   },
@@ -203,8 +203,11 @@ let appData = {
     start.disabled = !isNumber(salaryAmount.value);
   }
 };
+
+const foo = appData.start.bind(appData);
+
 appData.blockStart();
-start.addEventListener('click', appData.start);
+start.addEventListener('click', foo);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.changePeriodSelect);
