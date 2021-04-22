@@ -66,9 +66,12 @@ start() {
   cancel.style.display = 'block';
 }
 
-blockInputs(disabled = true) {
-  document.querySelectorAll('input[type=text]').forEach(item => {
-    item.disabled = disabled;
+blockInputs() {
+  document.querySelectorAll('input[type=text').forEach(item => {
+    item.disabled = true;
+  });
+  document.querySelectorAll('.btn_plus').forEach(item => {
+    item.disabled = true;
   });
 }
 
@@ -84,9 +87,13 @@ reset() {
   remove(document.querySelectorAll('.expenses-items'));
   incomePlus.style.display = '';
   expensesPlus.style.display = '';
-  this.blockInputs(false);
+  document.querySelectorAll('.btn_plus').forEach(item => {
+    item.style.display = '';
+    item.disabled = false;
+  });
   document.querySelectorAll('input[type=text]').forEach(item => {
     item.value = '';
+    item.disabled = false;
   });
   periodSelect.value = document.querySelector('.period-amount').textContent = 1;
   this.budget = 0;
