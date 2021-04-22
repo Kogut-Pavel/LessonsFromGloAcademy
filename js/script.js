@@ -62,6 +62,7 @@ start() {
   this.getBudget();
   this.blockInputs();
   this.showResult();
+  
         
   start.style.display = 'none';
   cancel.style.display = 'block';
@@ -76,12 +77,13 @@ blockInputs(disabled = true) {
 reset() {
   cancel.style.display = 'none';
   start.style.display = 'block';
-  for (let i = incomeItems.length - 1; i > 0; i--) {
-    incomeItems[0].parentNode.removeChild(incomeItems[i]);
-  }
-  for (let i = expensesItems.length - 1; i > 0; i--) {
-    expensesItems[0].parentNode.removeChild(expensesItems[i]);
-  }
+  const remove = item => {
+    for (let i = item.length - 1; i > 0; i--) {
+        item[0].parentNode.removeChild(item[i]);
+    }
+  };
+  remove(document.querySelectorAll('.income-items'));
+  remove(document.querySelectorAll('.expenses-items'));
   incomePlus.style.display = '';
   expensesPlus.style.display = '';
   this.blockInputs(false);
@@ -89,6 +91,18 @@ reset() {
     item.value = '';
   });
   periodSelect.value = document.querySelector('.period-amount').textContent = 1;
+  this.budget = 0;
+  this.budgetDay = 0;
+  this.budgetMonth = 0;
+  this.income = {};
+  this.incomeMonth = 0;
+  this.expenses = {};
+  this.expensesMonth = 0;
+  this.addIncome = [];
+  this.addExpenses = [];
+  this.deposit = false;
+  this.precentDeposit = 0;
+  this.moneyDeposit = 0;
   this.blockStart();
 }
 
