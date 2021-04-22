@@ -9,7 +9,7 @@ const isString = function(str, comma = false) {
   return pattern.test(str);
 };
 
-let start = document.getElementById('start'),
+const start = document.getElementById('start'),
     incomePlus = document.getElementsByTagName('button')[0],
     expensesPlus = document.getElementsByTagName('button')[1],
     depositCheck = document.querySelector('#deposit-check'),
@@ -23,18 +23,18 @@ let start = document.getElementById('start'),
     targetMonthValue = document.getElementsByClassName('target_month-value')[0],
     salaryAmount = document.querySelector('.salary-amount'),
     incomeTitle = document.querySelector('.income-title'),
-    incomeItems = document.querySelectorAll('.income-items'),
     additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
-    expensesItems = document.querySelectorAll('.expenses-items'),
     additionalExpensesItem = document.querySelector('.additional_expenses-item'),
     depositAmount = document.querySelector('.deposit-amount'),
     depositPercent = document.querySelector('.deposit-percent'),
     targetAmount = document.querySelector('.target-amount'),
     periodSelect = document.querySelector('.period-select'), // range
     cancel = document.getElementById('cancel');
-    
-const AppData = function() {
+let incomeItems = document.querySelectorAll('.income-items'),
+    expensesItems = document.querySelectorAll('.expenses-items');
 
+class AppData {
+  constructor() {
   this.income = {};
   this.incomeMonth = 0;
   this.addIncome = [];
@@ -49,8 +49,8 @@ const AppData = function() {
   this.budgetDay = 0;
   this.budgetMonth = 0;
   this.expensesMonth = 0;
-
-};
+  }
+} 
 
 AppData.prototype.start = function() {
 
@@ -108,7 +108,7 @@ AppData.prototype.showResult = function () {
 };
 
 AppData.prototype.addExpensesBlock = function() {
-  let cloneExpensesItem = expensesItems[0].cloneNode(true);
+  const cloneExpensesItem = expensesItems[0].cloneNode(true);
   cloneExpensesItem.querySelector('.expenses-title').value = '';
   cloneExpensesItem.querySelector('.expenses-amount').value = '';
   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
@@ -120,8 +120,8 @@ AppData.prototype.addExpensesBlock = function() {
 
 AppData.prototype.getExpenses = function() {  
   expensesItems.forEach(item => {
-    let itemExpenses = item.querySelector('.expenses-title').value;
-    let cashExpenses = item.querySelector('.expenses-amount').value;
+    const itemExpenses = item.querySelector('.expenses-title').value;
+    const cashExpenses = item.querySelector('.expenses-amount').value;
     if (itemExpenses !== '' && cashExpenses !== '') {
       this.expenses[itemExpenses] = cashExpenses;
     }
@@ -129,7 +129,7 @@ AppData.prototype.getExpenses = function() {
 };
 
 AppData.prototype.addIncomeBlock = function() {
-  let cloneIncomeItem = incomeItems[0].cloneNode(true);
+  const cloneIncomeItem = incomeItems[0].cloneNode(true);
   cloneIncomeItem.querySelector('.income-title').value = '';
   cloneIncomeItem.querySelector('.income-amount').value = '';
   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
@@ -141,8 +141,8 @@ AppData.prototype.addIncomeBlock = function() {
 
 AppData.prototype.getIncome = function() {
   incomeItems.forEach(item => {
-    let itemIncome = item.querySelector('.income-title').value;
-    let cashIncome = item.querySelector('.income-amount').value;
+    const itemIncome = item.querySelector('.income-title').value;
+    const cashIncome = item.querySelector('.income-amount').value;
     if (itemIncome !== '' && cashIncome !== '') {
       this.income[itemIncome] = +cashIncome;
       this.incomeMonth += +cashIncome;
@@ -151,7 +151,7 @@ AppData.prototype.getIncome = function() {
 };
 
 AppData.prototype.getAddExpenses = function() {
-  let addExpenses = additionalExpensesItem.value.split(',');
+  const addExpenses = additionalExpensesItem.value.split(',');
     addExpenses.forEach(item => {  
       item = item.trim();
       if (item !== '') {
@@ -162,7 +162,7 @@ AppData.prototype.getAddExpenses = function() {
 
 AppData.prototype.getAddIncome = function() {
   additionalIncomeItem.forEach(item => {
-    let itemValue = item.value.trim();
+    const itemValue = item.value.trim();
     if (itemValue !== '') {
       this.addIncome.push(itemValue);
     }
@@ -235,8 +235,3 @@ AppData.prototype.eventsListeners = function () {
 
 const appData = new AppData();
 appData.eventsListeners();
-
-
-
-
-
