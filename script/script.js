@@ -124,6 +124,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
   togglePopUp();
 
+  // Scroll smooth
   
+  const scrollLinks = document.querySelectorAll('a');
+
+  for (const scrollLink of scrollLinks) {
+    scrollLink.addEventListener('click', event => {
+      event.preventDefault();
+      const id = scrollLink.getAttribute('href');
+      document.querySelector(id).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        });
+    });
+  }
   
 });
