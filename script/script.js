@@ -59,17 +59,14 @@ window.addEventListener('DOMContentLoaded', function() {
     menu.addEventListener('click', (event) => {
       let target = event.target;
       
-      if (target.matches('a')) {
-          handlerMenu(event);
+      if (!target.matches('a')) {
+          return;
       } else {
-        target = target.closest('menu');
-        
-        
-      }
-      
+        handlerMenu(event);
+        }
       
     });
-
+  
     btnMenu.addEventListener('click', handlerMenu);
 
 
