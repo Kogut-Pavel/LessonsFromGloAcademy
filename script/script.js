@@ -91,9 +91,9 @@ window.addEventListener('DOMContentLoaded', function() {
 			popupClose = document.querySelector('.popup-close'),
 			popupContent = document.querySelector('.popup-content'),
 			popupData = {
-				count: 500,
+				count: 100,
 				speed: 10,
-				startPos: 500,
+				startPos: 100,
 				endPos: 0
 			};
 
@@ -101,7 +101,7 @@ window.addEventListener('DOMContentLoaded', function() {
 			if (popupData.startPos > popupData.endPos) {
         popupData.count -= popupData.speed;
       }
-			popupContent.style.transform = `translateX(${popupData.count}px)`;
+			popupContent.style.transform = `translateX(${popupData.count}%)`;
       if (popupData.count > popupData.endPos) {
         requestAnimationFrame(showPopup);
       }
