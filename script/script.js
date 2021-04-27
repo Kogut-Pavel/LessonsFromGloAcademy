@@ -44,86 +44,142 @@ window.addEventListener('DOMContentLoaded', function() {
     
   }
 
-  countTimer('25 april 2021');
+  countTimer('30 april 2021');
   
   // Menu
 
   const toggleMenu = () => {
 
     const btnMenu = document.querySelector('.menu'),
-          menu = document.querySelector('menu'),
-          closeBtn = document.querySelector('.close-btn'),
-          menuItems = menu.querySelectorAll('ul>li');
+          menu = document.querySelector('menu');
     const handlerMenu = () => {
       menu.classList.toggle('active-menu');
     };
 
+    menu.addEventListener('click', (event) => {
+      let target = event.target;
+      
+      if (target.matches('a')) {
+          handlerMenu(event);
+      } else {
+        target = target.closest('menu');
+        
+        
+      }
+      
+      
+    });
+
     btnMenu.addEventListener('click', handlerMenu);
-    closeBtn.addEventListener('click', handlerMenu);
-    menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
+
+
 
   };
-
+  
   toggleMenu();
 
   // popup
 
-  // const togglePopUp = () => {
-  //   const popup = document.querySelector('.popup'),
-  //         popupBtn = document.querySelectorAll('.popup-btn'),
-  //         popupClose = document.querySelector('.popup-close');
-    
-  //   popupBtn.forEach((elem) => {
-  //     elem.addEventListener('click', () => {
-  //       popup.style.display = 'block';
-  //     });
-  //   });
-
-  //   popupClose.addEventListener('click', () => {
-  //     popup.style.display = 'none';
-  //   });
-
-  // };
-
   const togglePopUp = () => {
-		const popup = document.querySelector('.popup'),
-			popupBtn = document.querySelectorAll('.popup-btn'),
-			popupClose = document.querySelector('.popup-close'),
-			popupContent = document.querySelector('.popup-content'),
-			popupData = {
-				count: 500,
-				speed: 10,
-				startPos: 500,
-				endPos: 0
-			};
+    const popup = document.querySelector('.popup'),
+          popupBtn = document.querySelectorAll('.popup-btn');
+    
+    popupBtn.forEach((elem) => {
+      elem.addEventListener('click', () => {
+        popup.style.display = 'block';
+      });
+    });
 
-		const showPopup = () => {
-			if (popupData.startPos > popupData.endPos) {
-        popupData.count -= popupData.speed;
+    popup.addEventListener('click', (event) => {
+      let target = event.target;
+      if (target.classList.contains('popup-close')) {
+        popup.style.display = 'none';
+      } else {
+        target = target.closest('.popup-content');
+        if (!target) {
+          popup.style.display = 'none';
+        }
       }
-			popupContent.style.transform = `translateX(${popupData.count}px)`;
-      if (popupData.count > popupData.endPos) {
-        requestAnimationFrame(showPopup);
-      }
-		};
+      
+     
+    });
 
-		popupBtn.forEach((elem) => {
-			elem.addEventListener('click', () => {
-				popup.style.display = 'block';
-				if (screen.width > 768) {
-					popupData.count = popupData.startPos;
-					requestAnimationFrame(showPopup);
-				}
-			});
-		});
+  };
 
-		popupClose.addEventListener('click', () => {
-			popup.style.display = 'none';
-		});
-	};
+  // const togglePopUp = () => {
+	// 	const popup = document.querySelector('.popup'),
+	// 		popupBtn = document.querySelectorAll('.popup-btn'),
+	// 		popupClose = document.querySelector('.popup-close'),
+	// 		popupContent = document.querySelector('.popup-content'),
+	// 		popupData = {
+	// 			count: 100,
+	// 			speed: 5,
+	// 			startPos: 100,
+	// 			endPos: 0,
+	// 		};
+
+	// 	const showPopup = () => {
+	// 		if (popupData.startPos > popupData.endPos) {
+  //       popupData.count -= popupData.speed;
+  //     }
+	// 		popupContent.style.transform = `translateX(${popupData.count}%)`;
+  //     if (popupData.count > popupData.endPos) {
+  //       requestAnimationFrame(showPopup);
+  //     }
+	// 	};
+
+	// 	popupBtn.forEach((elem) => {
+	// 		elem.addEventListener('click', () => {
+	// 			popup.style.display = 'block';
+	// 			if (window.innerWidth > 768) {   
+	// 				popupData.count = popupData.startPos;
+	// 				requestAnimationFrame(showPopup);
+	// 			}
+  //       popupContent.style.marginLeft = '-10%';
+	// 		});
+      
+	// 	});
+
+	// 	popupClose.addEventListener('click', () => {
+	// 		popup.style.display = 'none';
+	// 	});
+	// };
 
   togglePopUp();
 
-  
+  // Tabs
+
+  const tabs = () => {
+    const tabHeader = document.querySelector('.service-header'),
+          tab = tabHeader.querySelectorAll('.service-header-tab'),
+          tabContent = document.querySelectorAll('.service-tab');
+          const toggleTabContent = (index) => {
+            for(let i = 0; i < tabContent.length; i++) {
+              if (index === i) {
+                tab[i].classList.add('active');
+                tabContent[i].classList.remove('d-none');
+              } else {
+                tab[i].classList.remove('active');
+                tabContent[i].classList.add('d-none');
+              }
+            }
+          };
+
+          tabHeader.addEventListener('click', (event) => {
+            let target = event.target;
+            target = target.closest('.service-header-tab');
+            if (target) {
+              tab.forEach((item, i) => {
+                if (item === target) {
+                  toggleTabContent(i);
+                }
+              
+              });
+          }
+
+      });
+  };
+
+  tabs();  
   
 });
