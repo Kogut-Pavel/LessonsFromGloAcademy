@@ -49,26 +49,23 @@ window.addEventListener('DOMContentLoaded', function() {
   // Menu
 
   const toggleMenu = () => {
+    const handlerMenu = (event) => {
+      const target = event.target;
+     
+      const displayMenu = () => {
+        document.querySelector('menu').classList.toggle('active-menu');
+      };
 
-    const btnMenu = document.querySelector('.menu'),
-          menu = document.querySelector('menu');
-    const handlerMenu = () => {
-      menu.classList.toggle('active-menu');
+      if (target.closest('.menu') || target.closest('menu')) {
+        displayMenu(event);
+      } else if (target.closest('menu') && !target.matches('[href^="#"]')) {
+        displayMenu(event);
+      } 
+    
     };
-
-    menu.addEventListener('click', (event) => {
-      let target = event.target;
       
-      if (!target.matches('a')) {
-          return;
-      } else {
-        handlerMenu(event);
-        }
+    document.addEventListener('click', handlerMenu);
       
-    });
-  
-    btnMenu.addEventListener('click', handlerMenu);
-
   };
   
   toggleMenu();
