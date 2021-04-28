@@ -79,30 +79,30 @@ window.addEventListener('DOMContentLoaded', function() {
       });
 
 
-    let count;
+    
+    let count = 100;
     const modalAnimate = () => {
-      let modalAnimateID = requestAnimationFrame(modalAnimate); 
-        
+      let modalAnimateID = requestAnimationFrame(modalAnimate);   
       if (count > 0) {
-        count -= 5; 
-        console.log(count); 
-        popupContent.style.transform = `translateY(${-count}px)`;
-      } else if (count < 0) {
+        count -= 5;            
+        popupContent.style.transform = `translateY(${-count}px)`;       
+      } 
+      if (count === 0) {       
         cancelAnimationFrame(modalAnimateID);
-      }
+      }   
     };
     
     popupBtn.forEach((elem) => {
       elem.addEventListener("click", () => {
-        popup.style.display = "block";
+        popup.style.display = "block";  
+        const screenWidth = window.screen.width;  
         
-        const screenWidth = window.screen.width;
-        if (screenWidth > 768) {
-          count = 100;
-          modalAnimate();
-        }
-      
-      });
+        if (screenWidth > 768) { 
+          count = 100;    
+          modalAnimate(); 
+           
+        }   
+      });    
     });
   };
 
