@@ -104,6 +104,7 @@ window.addEventListener('DOMContentLoaded', function() {
           modalAnimate();
         }
       
+        
       });
     });
   };
