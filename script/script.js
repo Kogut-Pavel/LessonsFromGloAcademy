@@ -68,62 +68,40 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // popup
 
-  // const togglePopUp = () => {
-  //   const popup = document.querySelector('.popup'),
-  //         popupBtn = document.querySelectorAll('.popup-btn'),
-  //         popupClose = document.querySelector('.popup-close');
-    
-  //   popupBtn.forEach((elem) => {
-  //     elem.addEventListener('click', () => {
-  //       popup.style.display = 'block';
-  //     });
-  //   });
-
-  //   popupClose.addEventListener('click', () => {
-  //     popup.style.display = 'none';
-  //   });
-
-  // };
-
   const togglePopUp = () => {
-		const popup = document.querySelector('.popup'),
-			popupBtn = document.querySelectorAll('.popup-btn'),
-			popupClose = document.querySelector('.popup-close'),
-			popupContent = document.querySelector('.popup-content'),
-			popupData = {
-				count: 200,
-				speed: 4,
-				startPos: 200,
-				endPos: 50
-			};
+    const popup = document.querySelector('.popup'),
+          popupBtn = document.querySelectorAll('.popup-btn'),
+          popupClose = document.querySelector('.popup-close'),
+          popupContent = document.querySelector('.popup-content');
+  
+      popupClose.addEventListener('click', () => {
+        popup.style.display = 'none';
+      });
 
-		const showPopup = () => {
-			if (popupData.startPos > popupData.endPos) {
-        popupData.count -= popupData.speed;
+
+  let count = 100;
+    const modalAnimate = () => {
+      let modalAnimateID = requestAnimationFrame(modalAnimate);   
+      if (count > 0) {
+        count -= 5;  
+        popupContent.style.transform = `translateY(${-count}%)`;
+      } else if (count < 0) {
+        cancelAnimationFrame(modalAnimateID);
       }
-			popupContent.style.transform = `translateX(${popupData.count}%)`;
-      if (popupData.count > popupData.endPos) {
-        requestAnimationFrame(showPopup);
-      }
-		};
+    };
 
-		popupBtn.forEach((elem) => {
-			elem.addEventListener('click', () => {
-				popup.style.display = 'block';
-				if (screen.width > 768) {
-					popupData.count = popupData.startPos;
-					requestAnimationFrame(showPopup);
-				}
-			});
-		});
-
-		popupClose.addEventListener('click', () => {
-			popup.style.display = 'none';
-		});
-	};
+    popupBtn.forEach((elem) => {
+      elem.addEventListener("click", () => {
+        popup.style.display = "block";
+        const screenWidth = window.screen.width;
+        if (screenWidth > 768) {
+          modalAnimate();
+        }
+      
+      });
+    });
+  };
 
   togglePopUp();
-
-  
   
 });
