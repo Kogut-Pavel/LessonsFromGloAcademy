@@ -49,30 +49,41 @@ window.addEventListener('DOMContentLoaded', function() {
   // Menu
 
   const toggleMenu = () => {
-
-    const btnMenu = document.querySelector('.menu'),
-          menu = document.querySelector('menu');
-    const handlerMenu = () => {
-      menu.classList.toggle('active-menu');
+    const handlerMenu = (event) => {
+      const target = event.target;
+      const menu = document.querySelector('menu');
+      const displayMenu = () => {
+        menu.classList.toggle('active-menu');
+      };
+      
+      if (target.closest('.menu')) {
+        displayMenu();
+      } else if (!target.classList.contains('active-menu') && menu.classList.contains('active-menu')) {
+        displayMenu();
+      }
     };
-
-    menu.addEventListener('click', (event) => {
-      let target = event.target;
       
-      if (!target.matches('a')) {
-          return;
-      } else {
-        handlerMenu(event);
-        }
+    document.addEventListener('click', handlerMenu);
       
-    });
-  
-    btnMenu.addEventListener('click', handlerMenu);
-
   };
   
   toggleMenu();
 
+   // Scroll smooth
+  
+   const scrollLinks = document.querySelectorAll('a');
+
+   for (const scrollLink of scrollLinks) {
+     scrollLink.addEventListener('click', event => {
+       event.preventDefault();
+       const id = scrollLink.getAttribute('href');
+       document.querySelector(id).scrollIntoView({
+         behavior: 'smooth',
+         block: 'start',
+         });
+     });
+   }
+   
   // popup
 
   const togglePopUp = () => {
@@ -144,13 +155,113 @@ window.addEventListener('DOMContentLoaded', function() {
                 if (item === target) {
                   toggleTabContent(i);
                 }
-              
               });
           }
-
       });
   };
 
   tabs();  
+  
+  // Slider 
+
+  const slider = () => {
+    const slide = document.querySelectorAll('.portfolio-item'),
+      dot = document.querySelectorAll('.dot'),
+      slider = document.querySelector('.portfolio-content');
+
+    let currentSlide = 0,
+      interval;
+
+    const prevSlide = (elem, index, strClass) => {
+      elem[index].classList.remove(strClass);
+    };
+
+    const nextSlide = (elem, index, strClass) => {
+      elem[index].classList.add(strClass);
+    };
+
+    const autoPlaySlide = () => {
+      prevSlide(slide, currentSlide, 'portfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
+      currentSlide++;
+      if (currentSlide >= slide.length) {
+        currentSlide = 0;
+      }
+      nextSlide(slide, currentSlide, 'portfolio-item-active');
+      nextSlide(dot, currentSlide, 'dot-active');
+    }; 
+
+    const startSlide = (time = 3000) => {
+      interval = setInterval(autoPlaySlide, time);
+    };
+
+    const stopSlide = () => {
+      clearInterval(interval);
+    };
+
+    slider.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      let target = event.target;
+
+      if (!target.matches('.portfolio-btn, .dot')) {
+        return;
+      }
+
+      prevSlide(slide, currentSlide, 'portfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
+
+      if (target.matches('#arrow-right')) {
+        currentSlide++;
+      } else if (target.matches('#arrow-left')) {
+        currentSlide--;
+      } else if (target.matches('.dot')) {
+        dot.forEach((elem, index) => {
+          if (elem === target) {
+            currentSlide = index;
+          }
+        });
+      }
+      if (currentSlide >= slide.length) {
+        currentSlide = 0;
+      }
+      if(currentSlide < 0) {
+        currentSlide = slide.length -1;
+      }
+      nextSlide(slide, currentSlide, 'portfolio-item-active');
+      nextSlide(dot, currentSlide, 'dot-active');
+    });
+
+    slider.addEventListener('mouseover', (event) => {
+      if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
+        stopSlide();
+      }
+    });
+
+    slider.addEventListener('mouseout', (event) => {
+      if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
+        startSlide();
+      }
+    });
+
+    startSlide(2000);
+
+  };
+
+  const addDot = () => {
+    const portfolioItems = document.querySelectorAll('.portfolio-item'),
+      portfolioDots = document.querySelector('.portfolio-dots');
+
+      portfolioItems.forEach(() => {
+        const dot = document.createElement('li');
+        dot.classList.add('dot');
+        portfolioDots.appendChild(dot);
+      });
+
+      portfolioDots.children[0].classList.add('dot-active');
+  };
+
+  addDot();
+  slider();
   
 });
