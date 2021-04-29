@@ -52,17 +52,19 @@ window.addEventListener('DOMContentLoaded', function() {
   const toggleMenu = () => {
     const handlerMenu = (event) => {
       const target = event.target;
-     
+      const menu = document.querySelector('menu');
       const displayMenu = () => {
-        document.querySelector('menu').classList.toggle('active-menu');
+        menu.classList.toggle('active-menu');
       };
-
-      if (target.closest('.menu') || target.closest('menu')) {
-        displayMenu(event);
-      } else if (target.closest('menu') && !target.matches('[href^="#"]')) {
-        displayMenu(event);
-      } 
-    
+      
+      if (target.closest('.menu')) {
+        displayMenu();
+      } else if (!target.closest('.active-menu') && target.matches('[href^="#"]')) {
+        displayMenu();
+      } else if (!target.classList.contains('active-menu') && menu.classList.contains('active-menu')) {
+        displayMenu();
+      }
+      
     };
       
     document.addEventListener('click', handlerMenu);
