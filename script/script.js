@@ -280,13 +280,8 @@ window.addEventListener('DOMContentLoaded', function() {
 			}
 		};
 
-    commandPhotos.forEach((elem) => {
-      elem.addEventListener('mouseover', changingPhotos);
-    });
-
-    commandPhotos.forEach((elem) => {
-      elem.addEventListener('mouseout', changingPhotos);
-    });
+    commandPhotos.forEach(() => addEventListener('mouseover', changingPhotos));
+    commandPhotos.forEach(() => addEventListener('mouseout', changingPhotos));
 
 	};  
 
@@ -295,7 +290,7 @@ window.addEventListener('DOMContentLoaded', function() {
   // Check calculator
 
   const checkCalcBlock = () => {
-    const calcItems = document.querySelectorAll('.calc-item');
+    const calcItems = document.querySelectorAll('.calc-block>input');
 
     calcItems.forEach((elem) => {
       elem.addEventListener('input', (event) => {   
@@ -313,7 +308,6 @@ window.addEventListener('DOMContentLoaded', function() {
     
     const checkingInputs = (event) => {
       let target = event.target;
-      let name = document.querySelector('.top-form')[0];
       if (target.name === 'user_name' || target.matches('.mess')) {
         target.value = target.value.replace(/[^а-яё ,.-]/gi, '');
       } 
@@ -326,7 +320,7 @@ window.addEventListener('DOMContentLoaded', function() {
     };  
        
     topForms.forEach((elem) => {
-      elem.addEventListener('blur', (event) => {
+      elem.addEventListener('blur', () => {
         // Заменяет 2 и более тире на один
         elem.value = elem.value.replace(/-{1,}/g, "-");
         // Заменяет 2 и более пробела на один
@@ -334,8 +328,7 @@ window.addEventListener('DOMContentLoaded', function() {
         // Удаляет пробелы и тире в начале и конце строки
         elem.value = elem.value.replace(/^\s|\s$|^-|-$/g, "");
         // Приводит первую букву каждого слова в Верхний регистр в поле "Ваше имя"
-        if (elem.name === 'user_name') {
-        
+        if (elem.name === 'user_name') { 
           let nameFirstLetter = [];
           let word = elem.value.split(" ");
           word.forEach((item) => {
@@ -345,17 +338,86 @@ window.addEventListener('DOMContentLoaded', function() {
           });
         }
       }, true);
-    });
-       
-        
-      
+    });   
    
-    topForms.forEach(addEventListener('input', checkingInputs));
+    topForms.forEach(() => addEventListener('input', checkingInputs));
     
   };
   
-
   checkInputs();
-
   
+  // Calculator 
+
+  const calc = (price = 100) => {
+    const calcBlock = document.querySelector('.calc-block'),
+      calcType = document.querySelector('.calc-type'),
+      calcSquare = document.querySelector('.calc-square'),
+      calcDay = document.querySelector('.calc-day'),
+      calcCount = document.querySelector('.calc-count'),
+      totalValue = document.getElementById('total');
+
+    const countSum = () => {
+      let total = 0,
+      countValue = 1,
+      dayValue = 1;
+      const typeValue = calcType.options[calcType.selectedIndex].value,
+        squareValue = +calcSquare.value;
+
+      if (calcCount.value > 1) {
+        countValue += (calcCount.value - 1) / 10;
+      }
+
+      if (calcDay.value && calcDay.value < 5) {
+        dayValue *= 2;
+      } else if (calcDay.value && calcDay.value < 10) {
+        dayValue *= 1.5;
+      }
+
+      if (typeValue && squareValue) {
+        total = price * typeValue * squareValue * countValue * dayValue;
+      } 
+
+      totalValue.textContent = total;
+
+      function animate({timing, draw, duration}) {
+        let start = performance.now();
+        requestAnimationFrame(function animate(time) {
+          let timeFraction = (time - start) / duration;
+          if (timeFraction > 1) {
+            timeFraction = 1;
+          }
+          let progress = timing(timeFraction);
+          draw(progress);
+          if (timeFraction < 1) {
+            requestAnimationFrame(animate);
+          }
+        });
+      }
+      
+        const animation = () => {
+          animate({
+            duration: 1000,
+            timing(timeFraction) {
+              return timeFraction;
+            },
+            draw(progress) {
+              totalValue.textContent = Math.floor(progress * total);
+            }
+          });
+        };
+        animation();
+    };
+
+      calcBlock.addEventListener('change', (event) => {
+        const target = event.target;
+        if (target === calcType || target === calcSquare ||
+          target === calcDay || target === calcCount) {
+          countSum();
+        }
+      });
+      
+  };
+
+  calc(100);
+
 });
