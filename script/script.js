@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
   }
 
-  countTimer('30 april 2021');
+  countTimer('7 may 2021');
   
   // Menu
 
@@ -299,53 +299,8 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   };
 
-  checkCalcBlock();
+  checkCalcBlock(); 
 
-  // Check inputs 
-
-  const checkInputs = () => {
-    const topForms = document.querySelectorAll('.top-form');
-    
-    const checkingInputs = (event) => {
-      let target = event.target;
-      if (target.name === 'user_name' || target.matches('.mess')) {
-        target.value = target.value.replace(/[^а-яё ,.-]/gi, '');
-      } 
-      if (target.matches('.form-email')) {
-        target.value = target.value.replace(/[а-яё ,?^]/gi, '');
-      }
-      if (target.matches('.form-phone')) {
-        target.value = target.value.replace(/[^0-9() \.-]/g, '');
-      }
-    };  
-       
-    topForms.forEach((elem) => {
-      elem.addEventListener('blur', () => {
-        // Заменяет 2 и более тире на один
-        elem.value = elem.value.replace(/-{1,}/g, "-");
-        // Заменяет 2 и более пробела на один
-        elem.value = elem.value.replace(/\s{1,}/gi, " ");
-        // Удаляет пробелы и тире в начале и конце строки
-        elem.value = elem.value.replace(/^\s|\s$|^-|-$/g, "");
-        // Приводит первую букву каждого слова в Верхний регистр в поле "Ваше имя"
-        if (elem.name === 'user_name') { 
-          let nameFirstLetter = [];
-          let word = elem.value.split(" ");
-          word.forEach((item) => {
-            item = item[0].toUpperCase() + item.slice(1);
-            nameFirstLetter.push(item);
-            elem.value = nameFirstLetter.join(" ");
-          });
-        }
-      }, true);
-    });   
-   
-    topForms.forEach(() => addEventListener('input', checkingInputs));
-    
-  };
-  
-  checkInputs();
-  
   // Calculator 
 
   const calc = (price = 100) => {
@@ -419,5 +374,108 @@ window.addEventListener('DOMContentLoaded', function() {
   };
 
   calc(100);
+
+  // send-ajax-form
+
+  const sendForm = () => {
+		const errorMessage = ' Что-то пошло не так...',
+			loadMessage = ' Загрузка...',
+			successMessage = ' Спасибо! Мы скоро с вами свяжемся!',
+			errorImg = './images/message/Err.png',
+			loadImg = './images/message/waiting.gif',
+			successImg = './images/message/OK.png';
+
+		const postData = (body, outputData, errorData) => {
+			const request = new XMLHttpRequest();
+
+			request.addEventListener('readystatechange', () => {
+				if (request.readyState !== 4) {
+					return;
+				}
+				if (request.status === 200) {
+					outputData();
+				} else {
+					errorData(request.status);
+				}
+			});
+
+			request.open('POST', './server.php');
+			request.setRequestHeader('Content-Type', 'application/json');
+			request.send(JSON.stringify(body));
+		};
+
+		const clearInput = idForm => {
+			const form = document.getElementById(idForm);
+
+			[...form.elements]
+				.filter(item =>
+					item.tagName.toLowerCase() !== 'button' &&
+					item.type !== 'button')
+				.forEach(item =>
+					item.value = '');
+		};
+      
+      const checkInputs = (event) => {
+        const target = event.target;
+        const forms = document.querySelectorAll('idForm');
+        if (target.matches('.form-phone')) {
+          target.value = target.value.replace(/[^\+\d]/g, '');
+        }
+  
+        if (target.name === 'user_name') {
+          target.value = target.value.replace(/[^а-яё ]/gi, '');
+        }
+  
+        if (target.matches('.mess')) {
+          target.value = target.value.replace(/[^а-яё0-9 ,.]/gi, '');
+        }
+      };
+ 
+		const processingForm = idForm => {
+			const form = document.getElementById(idForm);
+			const statusMessage = document.createElement('div');
+			const img = document.createElement('img');
+
+			statusMessage.style.cssText = 'font-size: 2rem; color: #fff';
+			img.height = 50;
+
+			form.addEventListener('submit', event => {
+				const formData = new FormData(form);
+				const body = {};
+
+				event.preventDefault();
+				statusMessage.textContent = loadMessage;
+				img.src = loadImg;
+				statusMessage.insertBefore(img, statusMessage.firstChild);
+				form.appendChild(statusMessage);
+
+				formData.forEach((val, key) => {
+					body[key] = val;
+				});
+
+				postData(body, () => {
+					statusMessage.textContent = successMessage;
+					img.src = successImg;
+					statusMessage.insertBefore(img, statusMessage.firstChild);
+					clearInput(idForm);
+				}, error => {
+					statusMessage.textContent = errorMessage;
+					img.src = errorImg;
+					statusMessage.insertBefore(img, statusMessage.firstChild);
+					console.error(error);
+				});
+			});
+
+			form.addEventListener('input', checkInputs);
+      
+		};
+
+		processingForm('form1');
+		processingForm('form2');
+		processingForm('form3');
+	};
+
+
+  sendForm();
 
 });
