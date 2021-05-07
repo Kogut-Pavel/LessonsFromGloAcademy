@@ -378,31 +378,14 @@ window.addEventListener('DOMContentLoaded', function() {
   // send-ajax-form
 
   const sendForm = () => {
-		// const errorMessage = ' Что-то пошло не так...',
-		// 	loadMessage = ' Загрузка...',
-		// 	successMessage = ' Спасибо! Мы скоро с вами свяжемся!',
-		// 	errorImg = './images/message/Err.png',
-		// 	loadImg = './images/message/waiting.gif',
-		// 	successImg = './images/message/OK.png';
-
-		const postData = body => new Promise((resolve, reject) => {
-			const request = new XMLHttpRequest();
-
-			request.addEventListener('readystatechange', () => {
-				if (request.readyState !== 4) {
-					return;
-				}
-				if (request.status === 200) {
-					resolve();
-				} else {
-					reject(request.status);
-				}
-			});
-
-			request.open('POST', './server.php');
-			request.setRequestHeader('Content-Type', 'application/json');
-			request.send(JSON.stringify(body));
-		});
+    
+		const postData = body => fetch('./server.php', {
+			method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
 
 		const clearInput = idForm => {
 			const form = document.getElementById(idForm);
@@ -455,24 +438,19 @@ window.addEventListener('DOMContentLoaded', function() {
       img.src = statusList[status].img;
       img.height = 50;
       statusMessage.insertBefore(img, statusMessage.firstChild);
-
       };
 
 			statusMessage.style.cssText = 'font-size: 2rem; color: #fff';
 			
 			form.addEventListener('submit', event => {
-				const formData = new FormData(form);
-				const body = {};
-
 				event.preventDefault();
 				showStatus('load');
         form.appendChild(statusMessage);
-
-        formData.forEach((val, key) => {
-					body[key] = val;
-				});
-        postData(body)
-					.then(() => {
+        postData(Object.fromEntries(new FormData(form)))
+					.then(response => {
+            if (response.status !== 200) {
+              throw new Error('Status network ${request.status}');
+            }
 						showStatus('success');
 						clearInput(idForm);
 					})
