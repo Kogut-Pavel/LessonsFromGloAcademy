@@ -14,7 +14,7 @@ import sendForm from './modules/sendForm';
 
 // Timer
 
-countTimer('10 may 2021');
+countTimer('13 may 2021');
 
 // Menu
 

@@ -32,6 +32,9 @@ const sendForm = () => {
       if (target.matches('.mess')) {
         target.value = target.value.replace(/[^а-яё0-9 ,.]/gi, '');
       }
+      if (target.matches('.form-email')) {
+        target.value = target.value.replace(/[^[A-Za-z0-9@.\-_/ ]/gi, '');
+      }
     };
 
   const processingForm = idForm => {
@@ -62,8 +65,13 @@ const sendForm = () => {
     };
 
     statusMessage.style.cssText = 'font-size: 2rem; color: #fff';
+
+    function deleteMessage() {
+      statusMessage.parentNode.removeChild(statusMessage);
+    }
     
     form.addEventListener('submit', event => {
+      const popup = document.querySelector('.popup');
       event.preventDefault();
       showStatus('load');
       form.appendChild(statusMessage);
@@ -74,12 +82,17 @@ const sendForm = () => {
           }
           showStatus('success');
           clearInput(idForm);
+          popup.style.display = 'none';
+          setTimeout(deleteMessage, 3000);
         })
         .catch(error => {
           showStatus('error');
+          setTimeout(deleteMessage, 3000);
           console.error(error);
         });
     });
+
+    
 
     form.addEventListener('input', checkInputs);
     
