@@ -1,4 +1,5 @@
 const sendForm = () => {
+  'use strict';
     
   const postData = body => fetch('./server.php', {
     method: 'POST',
@@ -31,6 +32,10 @@ const sendForm = () => {
 
       if (target.matches('.mess')) {
         target.value = target.value.replace(/[^а-яё0-9 ,.]/gi, '');
+      }
+
+      if (target.matches('.form-email')) {
+        target.value = target.value.replace(/[^[A-Za-z0-9 ]/gi, '');
       }
     };
 
