@@ -6,8 +6,7 @@ window.addEventListener('DOMContentLoaded', function() {
         timerMinutes = document.querySelector('#timer-minutes'),
         timerSeconds = document.querySelector('#timer-seconds'),
         idInterval = 0;
-
-
+ 
     function getTimeRemaining() {
       let dateStop = new Date(deadline).getTime(),
           dateNow = new Date().getTime(),
@@ -29,22 +28,23 @@ window.addEventListener('DOMContentLoaded', function() {
         return elem;
       }
     }
-
+    
     function updateClock() {
       let timer = getTimeRemaining();
       timerHours.textContent = addZero(timer.hours);
       timerMinutes.textContent = addZero(timer.minutes);
       timerSeconds.textContent = addZero(timer.seconds);
-
+     
       if(timer.timeRemaining < 0) {
         clearInterval(idInterval);
       }
     }
+    updateClock();
     idInterval = setInterval(updateClock, 1000);
     
   }
 
-  countTimer('7 may 2021');
+  countTimer('12 may 2021');
   
   // Menu
 
@@ -411,6 +411,9 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target.matches('.mess')) {
           target.value = target.value.replace(/[^а-яё0-9 ,.]/gi, '');
         }
+        if (target.matches('.form-email')) {
+          target.value = target.value.replace(/[^[A-Za-z0-9@.\-_/ ]/gi, '');
+        }
       };
  
 		const processingForm = idForm => {
@@ -441,8 +444,13 @@ window.addEventListener('DOMContentLoaded', function() {
       };
 
 			statusMessage.style.cssText = 'font-size: 2rem; color: #fff';
+
+      function deleteMessage() {
+        statusMessage.parentNode.removeChild(statusMessage);
+      }
 			
 			form.addEventListener('submit', event => {
+        const popup = document.querySelector('.popup');
 				event.preventDefault();
 				showStatus('load');
         form.appendChild(statusMessage);
@@ -453,12 +461,18 @@ window.addEventListener('DOMContentLoaded', function() {
             }
 						showStatus('success');
 						clearInput(idForm);
+            popup.style.display = 'none';
+            setTimeout(deleteMessage, 3000);
 					})
 					.catch(error => {
 						showStatus('error');
+            popup.style.display = 'none';
+            setTimeout(deleteMessage, 3000);
 						console.error(error);
 					});
 			});
+
+      
 
 			form.addEventListener('input', checkInputs);
       
