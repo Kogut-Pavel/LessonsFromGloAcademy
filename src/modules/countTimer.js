@@ -1,3 +1,5 @@
+
+  'use strict';
 function countTimer(deadline) {
   let timerHours = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
@@ -42,4 +44,6 @@ function countTimer(deadline) {
   
 }
 
+
 export default countTimer;
+

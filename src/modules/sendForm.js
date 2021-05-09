@@ -1,4 +1,5 @@
 const sendForm = () => {
+  'use strict';
     
   const postData = body => fetch('./server.php', {
     method: 'POST',

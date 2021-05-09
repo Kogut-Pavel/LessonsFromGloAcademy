@@ -93,7 +93,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction countTimer(deadline) {\n  var timerHours = document.querySelector('#timer-hours'),\n      timerMinutes = document.querySelector('#timer-minutes'),\n      timerSeconds = document.querySelector('#timer-seconds'),\n      idInterval = 0;\n\n  function getTimeRemaining() {\n    var dateStop = new Date(deadline).getTime(),\n        dateNow = new Date().getTime(),\n        timeRemaining = (dateStop - dateNow) / 1000,\n        seconds = 0,\n        minutes = 0,\n        hours = 0;\n\n    if (timeRemaining > 0) {\n      seconds = Math.floor(timeRemaining % 60);\n      minutes = Math.floor(timeRemaining / 60 % 60);\n      hours = Math.floor(timeRemaining / 60 / 60);\n    }\n\n    return {\n      timeRemaining: timeRemaining,\n      hours: hours,\n      minutes: minutes,\n      seconds: seconds\n    };\n  }\n\n  function addZero(elem) {\n    if (String(elem).length === 1) {\n      return '0' + elem;\n    } else {\n      return elem;\n    }\n  }\n\n  function updateClock() {\n    var timer = getTimeRemaining();\n    timerHours.textContent = addZero(timer.hours);\n    timerMinutes.textContent = addZero(timer.minutes);\n    timerSeconds.textContent = addZero(timer.seconds);\n\n    if (timer.timeRemaining < 0) {\n      clearInterval(idInterval);\n    }\n  }\n\n  updateClock();\n  idInterval = setInterval(updateClock, 1000);\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countTimer);\n\n//# sourceURL=webpack://lesson/./src/modules/countTimer.js?");
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n\n\nfunction countTimer(deadline) {\n  var timerHours = document.querySelector('#timer-hours'),\n      timerMinutes = document.querySelector('#timer-minutes'),\n      timerSeconds = document.querySelector('#timer-seconds'),\n      idInterval = 0;\n\n  function getTimeRemaining() {\n    var dateStop = new Date(deadline).getTime(),\n        dateNow = new Date().getTime(),\n        timeRemaining = (dateStop - dateNow) / 1000,\n        seconds = 0,\n        minutes = 0,\n        hours = 0;\n\n    if (timeRemaining > 0) {\n      seconds = Math.floor(timeRemaining % 60);\n      minutes = Math.floor(timeRemaining / 60 % 60);\n      hours = Math.floor(timeRemaining / 60 / 60);\n    }\n\n    return {\n      timeRemaining: timeRemaining,\n      hours: hours,\n      minutes: minutes,\n      seconds: seconds\n    };\n  }\n\n  function addZero(elem) {\n    if (String(elem).length === 1) {\n      return '0' + elem;\n    } else {\n      return elem;\n    }\n  }\n\n  function updateClock() {\n    var timer = getTimeRemaining();\n    timerHours.textContent = addZero(timer.hours);\n    timerMinutes.textContent = addZero(timer.minutes);\n    timerSeconds.textContent = addZero(timer.seconds);\n\n    if (timer.timeRemaining < 0) {\n      clearInterval(idInterval);\n    }\n  }\n\n  idInterval = setInterval(updateClock, 1000);\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countTimer);\n\n//# sourceURL=webpack://lesson/./src/modules/countTimer.js?");
+
 
 /***/ }),
 
@@ -550,7 +554,8 @@ eval("var map = {\n\t\"./log\": \"./node_modules/webpack/hot/log.js\"\n};\n\n\nf
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("8ab1e1861a87c139c0ed")
+
+/******/ 		__webpack_require__.h = () => ("363b4d12262b48f4cb56")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
