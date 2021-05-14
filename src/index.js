@@ -13,7 +13,6 @@ import calc from './modules/calc';
 import checkCalcBlock from './modules/checkCalcBlock';
 import sendForm from './modules/sendForm';
 
-
 // Timer
 
 countTimer('13 may 2021');
